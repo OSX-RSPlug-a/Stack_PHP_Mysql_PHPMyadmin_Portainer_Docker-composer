@@ -1,0 +1,49 @@
+version: "3"
+services:
+    www:
+        build: .
+        ports:
+            - "8001:80"
+        volumes:
+            - ./www:/var/www/html/
+        links:
+            - db
+        networks:
+            - default
+    db:
+        image: mysql
+        ports:
+            - "3306:3306"
+        command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci','--default-authentication-plugin=mysql_native_password']
+        environment:
+            MYSQL_DATABASE: URDB
+            MYSQL_USER: URUSER
+            MYSQL_PASSWORD: URPASSWRD
+            MYSQL_ROOT_PASSWORD: URPASSWRD
+        volumes:
+            - ./dump:/docker-entrypoint-initdb.d
+            - persistent:/var/lib/mysql
+        networks:
+            - default
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        links:
+            - db:db
+        ports:
+            - 8000:80
+        environment:
+            MYSQL_USER: URUSER
+            MYSQL_PASSWORD: URPASSWRD
+            MYSQL_ROOT_PASSWORD: URPASSWRD
+    portainer:
+        image: portainer/portainer:latest
+        ports:
+            - "9000:9000"
+        command: -H unix:///var/run/docker.sock
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+            - portainer_data:/data
+
+volumes:
+    persistent:
+    portainer_data:
