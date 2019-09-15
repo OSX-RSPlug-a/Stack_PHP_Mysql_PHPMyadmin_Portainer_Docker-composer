@@ -15,7 +15,7 @@ To init this project:
   
   3 - Run command:
   
-    docker-compose -f THENAME.yaml up	-d
+    docker-compose -f THENAME.yaml up -d
     
  So there are 4 containers on ports:
  
