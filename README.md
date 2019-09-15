@@ -13,7 +13,7 @@ To init this project:
   
   2 - Run command:
   
-    docker-compose -f mongo.yaml up	-d
+    docker-compose -f THENAME.yaml up	-d
     
  So there are 4 containers on ports:
  
